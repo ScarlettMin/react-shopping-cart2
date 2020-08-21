@@ -11,7 +11,6 @@ class ProductList extends Component {
             isLoading: false
         }
 
-    
     }
     componentWillMount(){
         this.setState({
@@ -25,21 +24,18 @@ class ProductList extends Component {
             })
         })
     }
-    buttonclick = (m) => {
-        console.log(m)
-    }
     render(){
         return (
             <div>
-                <h1>List</h1>
+                <p>List</p>
                 {
                     this.state.isLoading && <img src='https://i.imgur.com/JfPpwOA.gif'  /> 
                 }
                 <ul>
                 {
                     this.props.products.map(m => 
-                    <li key={m.id}> {m.title} 
-                    <button onClick={()=>{this.props.addProductToCart(m)}}>Add to Cart</button>
+                        <li key={m.id}> {m.title} 
+                        <button onClick={()=>{this.props.addProductToCart(this.props.cartItem, m)}}>Add to Cart</button>
                     </li>)
                  }
                 </ul>
@@ -49,8 +45,12 @@ class ProductList extends Component {
 }
 
 export default connect(
-    ({product}) => ({
-        products : product.products
-      }), 
-    { fetchProducts, addProductToCart }
+    (state)=> ({
+        cartItem : state.cart.items,
+        products : state.product.products
+    }),
+    { fetchProducts, addProductToCart } // 사용해서 연결할 actions 
 )(ProductList);
+
+//리스트 
+//카트 추가 버튼, 액션 
